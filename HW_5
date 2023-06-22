@@ -1,0 +1,43 @@
+import java.util.*;
+
+public class PhoneBook {
+    public static void main(String[] args) {
+        Map<String, List<String>> phoneBook = new HashMap<>();
+
+        // Добавление записей в телефонную книгу
+        addContact(phoneBook, "Иванов", "1231234");
+        addContact(phoneBook, "Иванов", "3456345");
+        addContact(phoneBook, "Иванов", "5676585");
+        addContact(phoneBook, "Петров", "12345");
+        addContact(phoneBook, "Петров", "82332");
+
+        // Вывод записей в телефонной книге в порядке убывания числа телефонов
+        printPhoneBook(phoneBook);
+    }
+
+    public static void addContact(Map<String, List<String>> phoneBook, String name, String phoneNumber) {
+        List<String> numbers = phoneBook.getOrDefault(name, new ArrayList<>());
+        numbers.add(phoneNumber);
+        phoneBook.put(name, numbers);
+    }
+
+    public static void printPhoneBook(Map<String, List<String>> phoneBook) {
+        List<Map.Entry<String, List<String>>> entries = new ArrayList<>(phoneBook.entrySet());
+
+        // Сортировка записей по убыванию числа телефонов
+        entries.sort((entry1, entry2) -> entry2.getValue().size() - entry1.getValue().size());
+
+        // Вывод отсортированных записей
+        for (Map.Entry<String, List<String>> entry : entries) {
+            String name = entry.getKey();
+            List<String> numbers = entry.getValue();
+
+            System.out.println(name + ":");
+            for (String number : numbers) {
+                System.out.println(number);
+            }
+
+            System.out.println();
+        }
+    }
+}
